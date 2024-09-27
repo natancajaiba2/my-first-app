@@ -4,31 +4,42 @@ import { TextInput } from "react-native";
 import { Text } from "react-native";
 
 export function Form(){
-    const [side, setSide] = useState(0);
-    const [area, setArea] = useState(0);
-    function calculateArea(){
-      let resultado =  ((side ** 2) * Math.sqrt(3)) / 4;
-      setArea(resultado);
+    const[height, setHeight] =useState('');
+    const[weight, setWeight] = useState('');
+    const[imc, setImc] = useState('');   
+    function imcCalculator(){
+        let totalImc = (weight/(height*height)).toFixed(2);
+        setImc(totalImc);
+    }
+
+    function validatorImc(){
+        if (weight != '' && height != ''){
+            imcCalculator();
+            setHeight('');
+            setWeight('');
+
+        }
     }
     return(
             <View>
-                <View>
-                    <Text>
-                        lado:
-                    </Text>
-                    <TextInput
-                    onChangeText={setSide}
-                    placeholder="Digite o lado em cm"
-                    inputMode="numeric"
-                    value={side}
-                    
-                    />
-                    <Pressable
-                    title="calcular"
-                    onPress={()=>calculateArea}
-                    />
-                        
-                </View>
+              <View>
+                <Text>Altura</Text>
+                <TextInput
+                placeholder="Ex. 1.75"
+                value={height}
+                />
+                <Text>Peso:</Text>
+                <TextInput
+                placeholder="ex. 67.5"
+                value={weight}
+                />
+                <Pressable 
+                    onPress={() => validatorImc()}
+                >
+                    <Text> calcular</Text>
+                </Pressable>
+                <Text>{imc}</Text>
+              </View>
             </View>
     );
 }
